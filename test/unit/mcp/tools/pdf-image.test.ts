@@ -11,7 +11,7 @@ import createTool from '../../../../src/mcp/tools/pdf-image.ts';
 import { createExtra } from '../../../lib/create-extra.ts';
 import { createTestConfig } from '../../../lib/create-test-config.ts';
 
-// Use .tmp/ in package root per QUALITY.md rule T8
+// Use .tmp/ in package root, never os.tmpdir() (testing-standards)
 const testOutputDir = join(process.cwd(), '.tmp', 'pdf-image-tests');
 const testStorageDir = join(testOutputDir, 'storage');
 const testPdfPath = join(testOutputDir, 'test-document.pdf');

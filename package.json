@@ -55,7 +55,7 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "@mcp-z/server": "^1.0.0",
+    "@mcp-z/server": "^1.2.0",
     "@modelcontextprotocol/sdk": "^1.0.0",
     "@napi-rs/canvas": "^1.0.7",
     "ajv": "^8.0.0",
@@ -90,12 +90,6 @@
   },
   "engines": {
     "node": ">=22.13"
-  },
-  "allowScripts": {
-    "node-filename-to-dist-paths": true,
-    "node-semvers": true,
-    "node-version-use": true,
-    "thread-sleep-compat": true
   },
   "mcpName": "io.github.mcp-z/mcp-pdf",
   "tsds": {

@@ -20,9 +20,23 @@ export async function createHTTPServer(config: ServerConfig, overrides?: Runtime
   registerPrompts(mcpServer, composed.prompts);
 
   const app = express();
-  app.use(cors());
   app.use(express.json({ limit: '10mb' }));
 
+  // Must mount '/mcp' before any permissive app-level cors(), or that layer answers its
+  // preflight first; pass baseUrl's origin/host below or a public deployment 403s itself.
+  const publicUrl = config.baseUrl ? new URL(config.baseUrl) : undefined;
+  logger.info(`Starting ${config.name} MCP server (http)`);
+  const { close, httpServer } = await connectHttp(mcpServer, {
+    logger,
+    app,
+    port,
+    allowedOrigins: publicUrl ? [publicUrl.origin] : undefined,
+    allowedHosts: publicUrl ? [publicUrl.host] : undefined,
+  });
+
+  // '/files' serves generated PDFs by content-addressed name and reads no auth
+  // state, so it's fine to keep this reachable cross-origin - scoped to this route
+  // only, never in front of '/mcp'.
   const fileRouter = createFileServingRouter(
     { resourceStoreUri: config.resourceStoreUri },
     {
@@ -30,10 +44,8 @@ export async function createHTTPServer(config: ServerConfig, overrides?: Runtime
       contentDisposition: 'attachment',
     }
   );
-  app.use('/files', fileRouter);
+  app.use('/files', cors(), fileRouter);
 
-  logger.info(`Starting ${config.name} MCP server (http)`);
-  const { close, httpServer } = await connectHttp(mcpServer, { logger, app, port });
   logger.info('http transport ready');
 
   return {

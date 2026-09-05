@@ -13,7 +13,7 @@ import type { Input, Output } from '../../../../src/mcp/tools/pdf-layout.ts';
 import { createExtra } from '../../../lib/create-extra.ts';
 import { createTestConfig } from '../../../lib/create-test-config.ts';
 
-// Use .tmp/ in package root per QUALITY.md rule T8
+// Use .tmp/ in package root, never os.tmpdir() (testing-standards)
 describe('Flexbox Layout Tests', () => {
   const testOutputDir = join(process.cwd(), '.tmp', 'flexbox-tests');
   const testStorageDir = join(testOutputDir, 'storage');

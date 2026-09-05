@@ -7,7 +7,7 @@ import PDFDocument from 'pdfkit';
 import { registerEmojiFont } from '../../../src/lib/emoji-renderer.ts';
 import { renderText } from '../../../src/lib/pdf-helpers.ts';
 
-// Use .tmp/ in package root per QUALITY.md rule T8
+// Use .tmp/ in package root, never os.tmpdir() (testing-standards)
 const testOutputDir = join(process.cwd(), '.tmp', 'fonts-tests');
 
 describe('fonts.PDF_STANDARD_FONTS', (): void => {

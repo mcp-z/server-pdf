@@ -438,7 +438,7 @@ describe('Enhanced API - Space Journey Resume (Sci-Fi Style)', () => {
     console.log('    🎨 Color scheme: Purple/Cyan on deep space background');
   });
 });
-// Use .tmp/ in package root per QUALITY.md rule T8
+// Use .tmp/ in package root, never os.tmpdir() (testing-standards)
 const testOutputDir = join(process.cwd(), '.tmp', 'layout-tests');
 describe('Layout Options for pdf-layout', () => {
   it('renders text with custom alignment', async () => {
