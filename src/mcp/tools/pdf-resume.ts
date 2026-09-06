@@ -12,8 +12,7 @@
  * - Automatic section rendering based on data shape
  */
 
-import { getFileUri, type ToolModule, writeFile } from '@mcp-z/server';
-import { type CallToolResult, ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { type CallToolResult, getFileUri, ProtocolError, ProtocolErrorCode, type ToolModule, writeFile } from '@mcp-z/server';
 import { z } from 'zod';
 import type { Margins, PageSizePreset } from '../../constants.ts';
 import { generateResumePDFBuffer, type RenderOptions, type TypographyOptions } from '../../lib/resume-pdf-generator.ts';
@@ -90,7 +89,7 @@ export default function createTool() {
       // Validate resume against JSON Schema
       const validation = validateResume(resume);
       if (!validation.valid) {
-        throw new McpError(ErrorCode.InvalidParams, `Resume validation failed: ${validation.errors?.join('; ') || 'Unknown error'}`);
+        throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Resume validation failed: ${validation.errors?.join('; ') || 'Unknown error'}`);
       }
 
       // Validate layout configuration
@@ -121,13 +120,13 @@ export default function createTool() {
         const allColumnSections = [...leftSections, ...rightSections];
         const invalidSections = allColumnSections.filter((s) => !definedSources.has(s));
         if (invalidSections.length > 0) {
-          throw new McpError(ErrorCode.InvalidParams, `Layout references unknown sections: ${invalidSections.join(', ')}. Available sections: ${[...definedSources].join(', ')}`);
+          throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Layout references unknown sections: ${invalidSections.join(', ')}. Available sections: ${[...definedSources].join(', ')}`);
         }
 
         // Check for duplicate sections across columns
         const duplicates = leftSections.filter((s) => rightSections.includes(s));
         if (duplicates.length > 0) {
-          throw new McpError(ErrorCode.InvalidParams, `Sections cannot appear in both columns: ${duplicates.join(', ')}`);
+          throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Sections cannot appear in both columns: ${duplicates.join(', ')}`);
         }
       }
 
@@ -316,13 +315,13 @@ export default function createTool() {
         structuredContent: { result },
       };
     } catch (error) {
-      if (error instanceof McpError) {
+      if (error instanceof ProtocolError) {
         throw error;
       }
 
       const message = error instanceof Error ? error.message : String(error);
 
-      throw new McpError(ErrorCode.InternalError, `Error generating resume PDF: ${message}`, {
+      throw new ProtocolError(ProtocolErrorCode.InternalError, `Error generating resume PDF: ${message}`, {
         stack: error instanceof Error ? error.stack : undefined,
       });
     }

@@ -6,7 +6,7 @@
  */
 
 import type { ToolModule } from '@mcp-z/server';
-import { type CallToolResult, ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { type CallToolResult, ProtocolError, ProtocolErrorCode } from '@mcp-z/server';
 import PDFDocument from 'pdfkit';
 import { z } from 'zod';
 import { DEFAULT_TEXT_FONT_SIZE } from '../../constants.ts';
@@ -115,7 +115,7 @@ export default function createTool() {
       };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      throw new McpError(ErrorCode.InternalError, `Error measuring text: ${message}`, {
+      throw new ProtocolError(ProtocolErrorCode.InternalError, `Error measuring text: ${message}`, {
         stack: error instanceof Error ? error.stack : undefined,
       });
     }

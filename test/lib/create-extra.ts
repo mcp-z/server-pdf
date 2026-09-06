@@ -1,5 +1,4 @@
-import type { AnySchema, SchemaOutput } from '@modelcontextprotocol/sdk/server/zod-compat.js';
-import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
+import type { CallToolResult, StandardSchemaWithJSON } from '@mcp-z/server';
 import pino from 'pino';
 import type { ServerConfig, StorageContext, StorageExtra } from '../../src/types.ts';
 
@@ -17,7 +16,7 @@ export interface BaseExtra {
   signal: AbortSignal;
   requestId: string;
   sendNotification: (notification: unknown) => Promise<void>;
-  sendRequest: <U extends AnySchema>(request: unknown) => Promise<SchemaOutput<U>>;
+  sendRequest: <U extends StandardSchemaWithJSON>(request: unknown) => Promise<StandardSchemaWithJSON.InferOutput<U>>;
   logger: pino.Logger;
 }
 
@@ -42,7 +41,7 @@ export function createExtra(storageContext?: StorageContext): BaseExtra {
     signal: new AbortController().signal,
     requestId: 'test-request-id',
     sendNotification: async () => {},
-    sendRequest: async <U extends AnySchema>() => ({}) as SchemaOutput<U>,
+    sendRequest: async <U extends StandardSchemaWithJSON>() => ({}) as StandardSchemaWithJSON.InferOutput<U>,
     logger: pino({ level: 'silent' }),
     ...(storageContext ? { storageContext } : {}),
   };

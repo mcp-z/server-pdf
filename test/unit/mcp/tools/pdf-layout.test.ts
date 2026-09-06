@@ -70,7 +70,7 @@ describe('Flexbox Layout Tests', () => {
       );
 
       assert.ok(result.structuredContent, 'Should return structured content');
-      const output = result.structuredContent?.result as Output;
+      const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
       assert.ok(output.uri, 'Should have uri in result');
     });
   });
@@ -645,7 +645,7 @@ describe('pdf-layout tool', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.documentId, 'should have documentId');
     assert.ok(output.uri, 'should have uri');
     assert.ok(output.sizeBytes > 0, 'should have non-zero size');
@@ -669,7 +669,7 @@ describe('pdf-layout tool', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.sizeBytes > 0, 'should have non-zero size');
   });
 

@@ -10,8 +10,7 @@
  * Default margins: 72pt (1 inch) for standard document formatting.
  */
 
-import { getFileUri, type ToolModule, writeFile } from '@mcp-z/server';
-import { type CallToolResult, ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { type CallToolResult, getFileUri, ProtocolError, ProtocolErrorCode, type ToolModule, writeFile } from '@mcp-z/server';
 import PDFDocument from 'pdfkit';
 import { z } from 'zod';
 import { DEFAULT_HEADING_FONT_SIZE, DEFAULT_TEXT_FONT_SIZE, getDefaultMargins, type Margins, type PageSizePreset } from '../../constants.ts';
@@ -305,7 +304,7 @@ export default function createTool() {
       };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      throw new McpError(ErrorCode.InternalError, `Error creating PDF document: ${message}`, {
+      throw new ProtocolError(ProtocolErrorCode.InternalError, `Error creating PDF document: ${message}`, {
         stack: error instanceof Error ? error.stack : undefined,
       });
     }

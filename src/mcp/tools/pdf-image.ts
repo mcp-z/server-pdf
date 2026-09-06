@@ -8,8 +8,7 @@
  * Full scale (1.0) provides detailed view but larger file size.
  */
 
-import { getFileUri, type ToolModule, writeFile } from '@mcp-z/server';
-import { type CallToolResult, ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { type CallToolResult, getFileUri, ProtocolError, ProtocolErrorCode, type ToolModule, writeFile } from '@mcp-z/server';
 import { existsSync } from 'fs';
 import { basename } from 'path';
 import { type PngPageOutput, pdfToPng } from 'pdf-to-png-converter';
@@ -79,7 +78,7 @@ export default function createTool() {
     try {
       // Validate PDF exists
       if (!existsSync(pdfPath)) {
-        throw new McpError(ErrorCode.InvalidParams, `PDF file not found: ${pdfPath}`);
+        throw new ProtocolError(ProtocolErrorCode.InvalidParams, `PDF file not found: ${pdfPath}`);
       }
 
       // Determine pages to process
@@ -106,7 +105,7 @@ export default function createTool() {
       }
 
       if (pngPages.length === 0) {
-        throw new McpError(ErrorCode.InternalError, 'Failed to render any pages. The PDF may be empty or invalid.');
+        throw new ProtocolError(ProtocolErrorCode.InternalError, 'Failed to render any pages. The PDF may be empty or invalid.');
       }
 
       const pdfBasename = basename(pdfPath, '.pdf');
@@ -115,7 +114,7 @@ export default function createTool() {
       for (const pngPage of pngPages) {
         const pngBuffer = pngPage.content;
         const pageNum = pngPage.pageNumber;
-        if (!pngBuffer) throw new McpError(ErrorCode.InternalError, `Failed to render page ${pageNum}.`);
+        if (!pngBuffer) throw new ProtocolError(ProtocolErrorCode.InternalError, `Failed to render page ${pageNum}.`);
 
         // Generate output filename
         const outputFilename = `${pdfBasename}-p${pageNum}.png`;
@@ -150,9 +149,9 @@ export default function createTool() {
         structuredContent: result,
       };
     } catch (error) {
-      if (error instanceof McpError) throw error;
+      if (error instanceof ProtocolError) throw error;
       const message = error instanceof Error ? error.message : String(error);
-      throw new McpError(ErrorCode.InternalError, `Error generating PDF image: ${message}`, {
+      throw new ProtocolError(ProtocolErrorCode.InternalError, `Error generating PDF image: ${message}`, {
         stack: error instanceof Error ? error.stack : undefined,
       });
     }

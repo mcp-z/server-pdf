@@ -57,7 +57,7 @@ describe('pdf-resume tool', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.documentId, 'should have documentId');
     assert.ok(output.sizeBytes > 0, 'should have non-zero size');
     assert.equal(output.filename, 'resume.pdf', 'should preserve filename');
@@ -279,7 +279,7 @@ describe('Fine-grained pagination', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.documentId, 'should have documentId');
     assert.ok(output.sizeBytes > 0, 'should have non-zero size');
     // Large resume with extensive content should be multiple pages
@@ -325,7 +325,7 @@ describe('Fine-grained pagination', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.documentId, 'should have documentId');
 
     console.log(`    📄 Summary-only resume created: ${output.sizeBytes} bytes`);
@@ -364,7 +364,7 @@ describe('Fine-grained pagination', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.documentId, 'should have documentId');
 
     console.log(`    📄 Bullets-only resume created: ${output.sizeBytes} bytes`);
@@ -414,7 +414,7 @@ describe('Fine-grained pagination', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.documentId, 'should have documentId');
 
     console.log(`    📄 Education resume created: ${output.sizeBytes} bytes`);
@@ -491,7 +491,7 @@ describe('pdf-resume two-column layout', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.documentId, 'should have documentId');
     assert.ok(output.sizeBytes > 0, 'should have non-zero size');
     assert.equal(output.filename, 'two-column-resume.pdf', 'should preserve filename');
@@ -612,7 +612,7 @@ describe('pdf-resume two-column layout', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.documentId, 'should have documentId');
     assert.ok(output.sizeBytes > 0, 'should have non-zero size');
     console.log(`    📄 Two-column (35%/65%) resume created: ${output.sizeBytes} bytes`);
@@ -660,7 +660,7 @@ describe('pdf-resume two-column layout', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.documentId, 'should have documentId');
     assert.ok(output.sizeBytes > 0, 'should have non-zero size');
     console.log(`    📄 Two-column (150pt/350pt) resume created: ${output.sizeBytes} bytes`);
@@ -692,7 +692,7 @@ describe('pdf-resume two-column layout', () => {
     const result = await tool.handler(input, extra);
 
     assert.ok(result.structuredContent, 'should have structuredContent');
-    const output = result.structuredContent?.result as Output;
+    const output = (result.structuredContent as { result?: unknown } | undefined)?.result as Output;
     assert.ok(output.documentId, 'should have documentId');
     assert.ok(output.sizeBytes > 0, 'should have non-zero size');
     console.log(`    📄 Single-column (default) resume created: ${output.sizeBytes} bytes`);
