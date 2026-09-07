@@ -2,6 +2,21 @@
 
 MCP server for creative PDF generation with full emoji, Unicode, and offline support
 
+## Branches
+
+Two lines. `master` is the current major and where all new work goes; `support/2.x` maintains the 2.x line for consumers who have not migrated.
+
+    master          3.x    current
+    support/2.x     2.x    security fixes and bugs only
+
+Check which one you are on before editing:
+
+```bash
+git rev-parse --abbrev-ref HEAD
+```
+
+Features, migrations and new APIs go to `master` only. A fix that also affects the 2.x line is cherry-picked to `support/2.x`, never merged across. Releases from `support/2.x` publish under the `support-2` dist-tag, never `latest`; `prepublishOnly` refuses a bare publish from this branch.
+
 ## Before Starting
 
 A few conventions here differ from what you might expect:

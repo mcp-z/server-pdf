@@ -49,7 +49,7 @@
     "format": "tsds format",
     "generate:types": "json2ts assets/resume.schema.json assets/resume.d.ts --bannerComment \"/* eslint-disable */\n/* Auto-generated from assets/resume.schema.json - DO NOT EDIT */\"",
     "prepublish:check": "ncp",
-    "prepublishOnly": "tsds validate",
+    "prepublishOnly": "node scripts/require-dist-tag.cjs && tsds validate",
     "test": "tsds test:node --no-timeouts",
     "test:engines": "nvu engines tsds test:node --no-timeouts",
     "version": "tsds version"
