@@ -55,7 +55,7 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "@mcp-z/server": "^2.0.0",
+    "@mcp-z/server": "^2.1.0",
     "@napi-rs/canvas": "^1.0.7",
     "ajv": "^8.0.0",
     "ajv-formats": "^3.0.0",
@@ -71,9 +71,11 @@
     "pino": "^10.0.0",
     "unist-util-visit": "^5.0.0",
     "yoga-layout": "^3.0.0",
-    "zod": "^4.0.0"
+    "zod": "^4.2.0"
   },
   "devDependencies": {
+    "@modelcontextprotocol/client": "^2.0.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/fontkit": "^2.0.8",
@@ -82,6 +84,7 @@
     "@types/pdfkit": "^0.17.4",
     "@types/unist": "^3.0.3",
     "fs-remove-compat": "^1.0.4",
+    "get-port": "7.2.0",
     "json-schema-to-typescript": "^16.0.0",
     "node-version-use": "^2.4.7",
     "ts-dev-stack": "^1.22.1",
